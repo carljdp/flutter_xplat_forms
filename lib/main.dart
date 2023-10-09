@@ -1,20 +1,24 @@
 import 'package:flutter/material.dart';
 
+const String title = 'Form';
+
 void main() {
-  runApp(const MyApp());
+  runApp(const MyApp(title: title));
 }
 
 class MyApp extends StatelessWidget {
-  const MyApp({super.key});
+  const MyApp({super.key, required this.title});
+  final String title;
+
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
-      title: 'Flutter Xplat Forms',
+      title: title,
       theme: ThemeData(
         colorScheme: ColorScheme.fromSeed(seedColor: Colors.lightBlue),
         useMaterial3: true,
       ),
-      home: const MyHomePage(title: 'Flutter Xplat Forms'),
+      home: MyHomePage(title: title),
     );
   }
 }
