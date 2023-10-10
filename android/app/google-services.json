@@ -1,0 +1,30 @@
+{
+  "project_info": {
+    "project_number": "274735071385",
+    "firebase_url": "https://flutter-xplat-forms-default-rtdb.europe-west1.firebasedatabase.app",
+    "project_id": "flutter-xplat-forms",
+    "storage_bucket": "flutter-xplat-forms.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:274735071385:android:b9689a4f2c7aa4a3a4b808",
+        "android_client_info": {
+          "package_name": "za.web.tech.flutter_xplat_forms"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBSzBqPA3ApOkgcw5EDV0UYTG7YLYWOopI"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
