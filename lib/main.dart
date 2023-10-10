@@ -1,7 +1,17 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:firebase_core/firebase_core.dart';
+import 'package:firebase_auth/firebase_auth.dart';
+import 'firebase_options.dart';
 
-void main() {
+Future<void> main() async {
+  WidgetsFlutterBinding.ensureInitialized();
+  await Firebase.initializeApp(
+    options: DefaultFirebaseOptions.currentPlatform,
+  );
+  // Ideal time to initialize
+  await FirebaseAuth.instance.useAuthEmulator('localhost', 9099);
+
   runApp(const MyApp());
 }
 
@@ -12,19 +22,21 @@ class MyApp extends StatelessWidget {
   Widget build(BuildContext context) {
     return const MaterialApp(
       title: 'MyForm',
-      home: MyForm(),
+      home: HomeScreen(),
     );
   }
 }
 
-class MyForm extends StatefulWidget {
-  const MyForm({super.key});
+class HomeScreen extends StatefulWidget {
+  const HomeScreen({super.key});
 
   @override
-  MyFormState createState() => MyFormState();
+  HomeScreenState createState() => HomeScreenState();
 }
 
-class MyFormState extends State<MyForm> {
+class HomeScreenState extends State<HomeScreen> {
+  final FirebaseAuth _auth = FirebaseAuth.instance;
+
   final GlobalKey<FormState> _formKey = GlobalKey<FormState>();
   final FocusNode _nameFocus = FocusNode();
   final FocusNode _emailFocus = FocusNode();
@@ -32,6 +44,9 @@ class MyFormState extends State<MyForm> {
   @override
   void initState() {
     super.initState();
+
+    // TODO: 3s delay is a bit long, investigate other methods
+    // - or perhaps it's just this slow in dev/debug modes?
     Future.delayed(const Duration(milliseconds: 3000), () {
       FocusScope.of(context).requestFocus(_nameFocus);
     });
@@ -47,7 +62,7 @@ class MyFormState extends State<MyForm> {
         }
       },
       child: Scaffold(
-        appBar: AppBar(title: const Text('MyForm')),
+        appBar: AppBar(title: const Text('Firebase Anonymous Auth')),
         body: Form(
           key: _formKey,
           child: Padding(
@@ -55,6 +70,14 @@ class MyFormState extends State<MyForm> {
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
+                ElevatedButton(
+                  onPressed: () async {
+                    UserCredential userCredential =
+                        await _auth.signInAnonymously();
+                    print("User ID: ${userCredential.user?.uid}\n");
+                  },
+                  child: const Text('Sign in Anonymously'),
+                ),
                 TextFormField(
                   focusNode: _nameFocus,
                   decoration: const InputDecoration(labelText: 'Name'),
